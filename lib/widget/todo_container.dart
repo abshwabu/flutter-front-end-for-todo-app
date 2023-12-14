@@ -13,21 +13,31 @@ class TodoContainer extends StatelessWidget {
       padding:const EdgeInsets.all(15),
     child: Container(
       width: double.infinity,
-      height: 16,
+      height: 160,
       decoration:const BoxDecoration(
         color: Colors.pink,
         borderRadius: BorderRadius.all(Radius.circular(4),
         
         )
       ),
-      child: Column(
-        children: [
-          Text(title, style:const TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.bold
-          ),)
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style:const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold
+            ),),
+            Text(description, style:const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.normal,
+              fontSize: 15
+            )
+            )
+          ],
+        ),
       ),
     )
     );

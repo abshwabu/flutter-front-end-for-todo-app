@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:frontend/Models/todo.dart';
 import 'package:frontend/widget/appbar.dart';
+import 'package:frontend/widget/todo_container.dart';
 import 'package:http/http.dart' as http;
 import 'package:frontend/Constants/api.dart';
 
@@ -53,6 +54,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: customAppBar(),
       backgroundColor:const Color(0xff001133),
+      body: isLoading?CircularProgressIndicator():ListView(
+        children: myTodo.map((e) => TodoContainer(id: e.id, title: e.title, description: e.description, isDone: e.isDone)).toList(),
+      ),
     );
   }
 }
