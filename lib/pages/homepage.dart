@@ -3,6 +3,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/Models/todo.dart';
+import 'package:frontend/widget/appbar.dart';
 import 'package:http/http.dart' as http;
 import 'package:frontend/Constants/api.dart';
 
@@ -14,15 +16,31 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool isLoading = true;
+  List<Todo> myTodo=[];
   void  fetchall()async {
     try{
       http.Response response = await http.get(Uri.parse(apikey));
-      var data = response.body;
-      // data = jsonEncode(data);
-      print(data);
+      var raw = response.body;
+      var data = json.decode(raw);
+      data.forEach((todo){
+        Todo t = Todo(
+          id: todo['id'],
+          title: todo['title'],
+          description: todo['description'],
+          isDone: todo['is_done'],
+
+        );
+        myTodo.add(t);
+        setState(() {
+          isLoading = false;
+          
+        });
+      });
+      print(myTodo.length);
     }
     catch(e){
-      print(e);
+      print('your error is$e');
     }
   }
   @override
@@ -33,9 +51,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Todo app'),
-      ),
+      appBar: customAppBar(),
+      backgroundColor:const Color(0xff001133),
     );
   }
 }
