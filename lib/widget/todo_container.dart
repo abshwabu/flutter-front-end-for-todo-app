@@ -13,7 +13,7 @@ class TodoContainer extends StatelessWidget {
       padding:const EdgeInsets.all(15),
     child: Container(
       width: double.infinity,
-      height: 160,
+      height: 120,
       decoration:const BoxDecoration(
         color: Colors.pink,
         borderRadius: BorderRadius.all(Radius.circular(4),
@@ -25,17 +25,24 @@ class TodoContainer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style:const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.bold
-            ),),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children:[ Text(title, style:const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold
+              ),
+              ),
+              ElevatedButton.icon(onPressed: null, icon: Icon(Icons.delete), label: Text(''))
+              ]
+            ),
             Text(description, style:const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.normal,
               fontSize: 15
             )
-            )
+            ), 
+            // 
           ],
         ),
       ),
