@@ -38,9 +38,9 @@ class _HomePageState extends State<HomePage> {
           
         });
       });
-      print(myTodo.length);
     }
     catch(e){
+      // ignore: avoid_print
       print('your error is$e');
     }
   }
@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: customAppBar(),
       backgroundColor:const Color(0xff001133),
-      body: isLoading?CircularProgressIndicator():ListView(
+      body: isLoading?const Center(child: CircularProgressIndicator()):ListView(
         children: myTodo.map((e) => TodoContainer(id: e.id, title: e.title, description: e.description, isDone: e.isDone)).toList(),
       ),
     );

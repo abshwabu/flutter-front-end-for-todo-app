@@ -33,7 +33,7 @@ class TodoContainer extends StatelessWidget {
                 fontWeight: FontWeight.bold
               ),
               ),
-              ElevatedButton.icon(onPressed: null, icon: Icon(Icons.delete), label: Text(''))
+              ElevatedButton.icon(onPressed: null, icon: const Icon(Icons.delete), label: const Text(''))
               ]
             ),
             Text(description, style:const TextStyle(
