@@ -8,6 +8,7 @@ import 'package:frontend/widget/appbar.dart';
 import 'package:frontend/widget/todo_container.dart';
 import 'package:http/http.dart' as http;
 import 'package:frontend/Constants/api.dart';
+import 'package:pie_chart/pie_chart.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,6 +18,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int done = 0;
   bool isLoading = true;
   List<Todo> myTodo=[];
   void  fetchall()async {
@@ -32,6 +34,9 @@ class _HomePageState extends State<HomePage> {
           isDone: todo['is_done'],
 
         );
+        if (todo['is_done']){
+          done+= 1;
+        }
         myTodo.add(t);
         setState(() {
           isLoading = false;
@@ -52,9 +57,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: customAppBar(),
       backgroundColor:const Color(0xff001133),
-      body: isLoading?const Center(child: CircularProgressIndicator()):ListView(
+      body: isLoading?Center(child: CircularProgressIndicator()):ListView(
         children: myTodo.map((e) => TodoContainer(id: e.id, title: e.title, description: e.description, isDone: e.isDone)).toList(),
       ),
     );
