@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int done = 0;
+  num done = 0;
   bool isLoading = true;
   List<Todo> myTodo=[];
   void  fetchall()async {
@@ -60,8 +60,16 @@ class _HomePageState extends State<HomePage> {
       
       appBar: customAppBar(),
       backgroundColor:const Color(0xff001133),
-      body: isLoading?Center(child: CircularProgressIndicator()):ListView(
-        children: myTodo.map((e) => TodoContainer(id: e.id, title: e.title, description: e.description, isDone: e.isDone)).toList(),
+      body: isLoading?Center(child: CircularProgressIndicator()):Column(
+        children: [
+          PieChart(dataMap: {
+            'Done':done.toDouble(),
+            'Incomplete': (myTodo.length-done).toDouble()
+          }),
+          ListView(
+            children: myTodo.map((e) => TodoContainer(id: e.id, title: e.title, description: e.description, isDone: e.isDone)).toList(),
+          ),
+        ],
       ),
     );
   }
