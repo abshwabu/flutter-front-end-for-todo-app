@@ -86,6 +86,7 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: myTodo
                     .map((e) => TodoContainer(
+                  onPress: ()=>deleteTodo(e.id),
                   id: e.id,
                   title: e.title,
                   description: e.description,

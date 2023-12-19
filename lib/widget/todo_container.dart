@@ -2,8 +2,9 @@
 import 'package:flutter/material.dart';
 
 class TodoContainer extends StatelessWidget {
-  const TodoContainer({super.key, required this.id, required this.title, required this.description, required this.isDone});
+  const TodoContainer({super.key, required this.id, required this.title, required this.description, required this.isDone, required this.onPress});
   final int id;
+  final Function onPress;
   final String title;
   final String description;
   final bool isDone;
@@ -33,7 +34,7 @@ class TodoContainer extends StatelessWidget {
                 fontWeight: FontWeight.bold
               ),
               ),
-              ElevatedButton.icon(onPressed: null, icon: const Icon(Icons.delete), label: const Text(''))
+              ElevatedButton.icon(onPressed:() => onPress, icon: const Icon(Icons.delete), label: const Text(''))
               ]
             ),
             Text(description, style:const TextStyle(
