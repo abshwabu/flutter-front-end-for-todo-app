@@ -49,15 +49,19 @@ class _HomePageState extends State<HomePage> {
       });
     }
   }
-  void deleteTodo(var id) async{
-    try{
-      http.Response response = await http.delete(Uri.parse('$apikey/'+ id));
+
+  void deleteTodo(var id) async {
+    try {
+      http.Response response = await http.delete(Uri.parse('$apikey/' + id));
+      print('deleted');
+      setState(() {
+          myTodo = [];
+      });
       fetchAll();
-    }
-    catch(e){
+
+    } catch (e) {
       print(e);
     }
-
   }
 
   @override
@@ -82,21 +86,37 @@ class _HomePageState extends State<HomePage> {
           isLoading
               ? Center(child: CircularProgressIndicator())
               : Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: myTodo
-                    .map((e) => TodoContainer(
-                  onPress: ()=>deleteTodo(e.id),
-                  id: e.id,
-                  title: e.title,
-                  description: e.description,
-                  isDone: e.isDone,
-                ))
-                    .toList(),
-              ),
-            ),
-          ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: myTodo
+                          .map((e) => TodoContainer(
+                                onPress: () => deleteTodo(e.id.toString()),
+                                id: e.id,
+                                title: e.title,
+                                description: e.description,
+                                isDone: e.isDone,
+                              ))
+                          .toList(),
+                    ),
+                  ),
+                ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          showModalBottomSheet(
+            context: context,
+            builder: (BuildContext context) {
+              return Container(
+                height: 300,
+                color: Colors.grey,
+                child: Text('This is a modal bottom sheet'),
+              );
+            },
+          );
+
+        },
+        child: Icon(Icons.add),
       ),
     );
   }
