@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/Models/todo.dart';
 import 'package:frontend/widget/appbar.dart';
 import 'package:frontend/widget/todo_container.dart';
+import 'package:gap/gap.dart';
 import 'package:http/http.dart' as http;
 import 'package:frontend/Constants/api.dart';
 import 'package:pie_chart/pie_chart.dart';
@@ -108,9 +109,23 @@ class _HomePageState extends State<HomePage> {
             context: context,
             builder: (BuildContext context) {
               return Container(
-                height: 300,
-                color: Colors.grey,
-                child: Text('This is a modal bottom sheet'),
+                height: MediaQuery.of(context).size.height/2,
+                color: Colors.white,
+                child: Center(
+                    child:Column(
+                      children: [
+                        const Text(
+                            'Add your task',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Gap(15),
+                      TextField()
+                      ],
+                    )
+                ),
               );
             },
           );
