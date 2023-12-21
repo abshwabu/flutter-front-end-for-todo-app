@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/Models/todo.dart';
@@ -56,12 +57,33 @@ class _HomePageState extends State<HomePage> {
       http.Response response = await http.delete(Uri.parse('$apikey/' + id));
       print('deleted');
       setState(() {
-          myTodo = [];
+        myTodo = [];
       });
       fetchAll();
-
     } catch (e) {
       print(e);
+    }
+  }
+
+  void _postTask({String title='', String description=''}) async {
+    http.Response response = await http.post(Uri.parse(apikey),
+      headers: <String, String>{
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      },
+      body: jsonEncode(<String,dynamic>{
+        "title":title,
+        'description':description,
+        'is_done':false
+      })
+    );
+
+    if(response.statusCode == 201){
+      setState(() {
+        myTodo = [];
+      });
+    }
+    else{
+      print('something is wrong');
     }
   }
 
@@ -76,17 +98,17 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: customAppBar(),
       backgroundColor: const Color(0xff001133),
-      body: Column(
-        children: [
-          Expanded(
-            child: PieChart(dataMap: {
-              'Done': done.toDouble(),
-              'Incomplete': (myTodo.length - done).toDouble()
-            }),
-          ),
-          isLoading
-              ? Center(child: CircularProgressIndicator())
-              : Expanded(
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Column(
+              children: [
+                Expanded(
+                  child: PieChart(dataMap: {
+                    'Done': done.toDouble(),
+                    'Incomplete': (myTodo.length - done).toDouble()
+                  }),
+                ),
+                Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       children: myTodo
@@ -101,66 +123,73 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-        ],
-      ),
+              ],
+            ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () {
           showModalBottomSheet(
             context: context,
             builder: (BuildContext context) {
+              String title='';
+              String description='';
               return Container(
-                height: MediaQuery.of(context).size.height/2,
+                height: MediaQuery.of(context).size.height / 2,
                 color: Colors.white,
                 child: Center(
-                    child:Column(
-                      children: [
-                        const Text(
-                            'Add your task',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Gap(15),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            icon: Icon(Icons.task),
-                            hintText: 'Enter the task',
-                            labelText: 'Task',
-                          ),
-                          onSaved: (String? value) {
-                            // This optional block of code can be used to run
-                            // code when the user saves the form.
-                          },
-                          validator: (String? value) {
-                            return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
-                          },
-                        ),
-                        Gap(10),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            icon: Icon(Icons.description),
-                            hintText: 'Describe your task',
-                            labelText: 'Description',
-                          ),
-                          onSaved: (String? value) {
-                            // This optional block of code can be used to run
-                            // code when the user saves the form.
-                          },
-                          validator: (String? value) {
-                            return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
-                          },
-                        ),
-                        ElevatedButton(onPressed: null, child: Text('Add'))
-                      ],
+                    child: Column(
+                  children: [
+                    const Text(
+                      'Add your task',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Gap(15),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        icon: Icon(Icons.task),
+                        hintText: 'Enter the task',
+                        labelText: 'Task',
+                      ),
+                      onSaved: (String? value) {
+                        // This optional block of code can be used to run
+                        // code when the user saves the form.
+                      },
+                      validator: (String? value) {
+                        return (value != null && value.contains('@'))
+                            ? 'Do not use the @ char.'
+                            : null;
+                      },
+                    ),
+                    Gap(10),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        icon: Icon(Icons.description),
+                        hintText: 'Describe your task',
+                        labelText: 'Description',
+                      ),
+                      onSaved: (String? value) {
+                        // This optional block of code can be used to run
+                        // code when the user saves the form.
+                      },
+                      validator: (String? value) {
+                        return (value != null && value.contains('@'))
+                            ? 'Do not use the @ char.'
+                            : null;
+                      },
+                    ),
+                    ElevatedButton(
+                        onPressed: _postTask(title: title.value),
+                        child: Text('Add')
                     )
-                ),
+                  ],
+                )),
               );
             },
           );
-
         },
         child: Icon(Icons.add),
       ),
