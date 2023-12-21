@@ -1,7 +1,6 @@
 // ignore_for_file: unused_import
 
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/Models/todo.dart';
@@ -130,8 +129,6 @@ class _HomePageState extends State<HomePage> {
           showModalBottomSheet(
             context: context,
             builder: (BuildContext context) {
-              String title='';
-              String description='';
               return Container(
                 height: MediaQuery.of(context).size.height / 2,
                 color: Colors.white,
@@ -182,7 +179,7 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                     ElevatedButton(
-                        onPressed: _postTask(title: title.value),
+                        onPressed: null,
                         child: Text('Add')
                     )
                   ],
