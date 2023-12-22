@@ -94,6 +94,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    String title='';
+    String description='';
     return Scaffold(
       appBar: customAppBar(),
       backgroundColor: const Color(0xff001133),
@@ -143,39 +145,30 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Gap(15),
-                    TextFormField(
+                    TextField(
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         icon: Icon(Icons.task),
                         hintText: 'Enter the task',
                         labelText: 'Task',
                       ),
-                      onSaved: (String? value) {
-                        // This optional block of code can be used to run
-                        // code when the user saves the form.
-                      },
-                      validator: (String? value) {
-                        return (value != null && value.contains('@'))
-                            ? 'Do not use the @ char.'
-                            : null;
+                      onSubmitted: (value) {
+                        setState(() {
+                          title = value;
+                        });
                       },
                     ),
                     Gap(10),
-                    TextFormField(
+                    TextField(
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         icon: Icon(Icons.description),
                         hintText: 'Describe your task',
                         labelText: 'Description',
                       ),
-                      onSaved: (String? value) {
+                      onSubmitted: (String? value) {
                         // This optional block of code can be used to run
                         // code when the user saves the form.
-                      },
-                      validator: (String? value) {
-                        return (value != null && value.contains('@'))
-                            ? 'Do not use the @ char.'
-                            : null;
                       },
                     ),
                     ElevatedButton(
