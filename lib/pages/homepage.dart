@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
   void _postTask({String title='', String description=''}) async {
     http.Response response = await http.post(Uri.parse(apikey),
       headers: <String, String>{
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String,dynamic>{
         "title":title,
@@ -79,6 +79,7 @@ class _HomePageState extends State<HomePage> {
     if(response.statusCode == 201){
       setState(() {
         myTodo = [];
+        fetchAll();
       });
     }
     else{
@@ -94,8 +95,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    String title='';
-    String description='';
+
     return Scaffold(
       appBar: customAppBar(),
       backgroundColor: const Color(0xff001133),
@@ -128,6 +128,8 @@ class _HomePageState extends State<HomePage> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          String title='';
+          String description='';
           showModalBottomSheet(
             context: context,
             builder: (BuildContext context) {
@@ -166,13 +168,17 @@ class _HomePageState extends State<HomePage> {
                         hintText: 'Describe your task',
                         labelText: 'Description',
                       ),
-                      onSubmitted: (String? value) {
-                        // This optional block of code can be used to run
-                        // code when the user saves the form.
+                      onSubmitted: (value) {
+                        setState(() {
+                          description = value;
+                        });
                       },
                     ),
                     ElevatedButton(
-                        onPressed: null,
+                        onPressed: ()=>_postTask(
+                          title: title,
+                          description: description
+                        ),
                         child: Text('Add')
                     )
                   ],
