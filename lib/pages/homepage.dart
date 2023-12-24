@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/Constants/colors.dart';
 import 'package:frontend/Models/todo.dart';
 import 'package:frontend/widget/appbar.dart';
 import 'package:frontend/widget/todo_container.dart';
@@ -98,7 +99,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: customAppBar(),
-      backgroundColor: const Color(0xff001133),
+      backgroundColor: background,
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : Column(
