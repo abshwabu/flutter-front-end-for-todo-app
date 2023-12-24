@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:frontend/Constants/colors.dart';
 
 class TodoContainer extends StatelessWidget {
   const TodoContainer({super.key, required this.id, required this.title, required this.description, required this.isDone, required this.onPress});
@@ -15,8 +16,8 @@ class TodoContainer extends StatelessWidget {
     child: Container(
       width: double.infinity,
       height: 120,
-      decoration:const BoxDecoration(
-        color: Colors.pink,
+      decoration: BoxDecoration(
+        color: isDone ? green: red,
         borderRadius: BorderRadius.all(Radius.circular(4),
         
         )
